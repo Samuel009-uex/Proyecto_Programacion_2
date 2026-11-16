@@ -212,6 +212,7 @@ print(df.shape)
 
 # %% [markdown]
 # ## 5. Creación de variables  (Integrante A)
+
 # %%
 # Variable 1: índice de masa corporal (peso en kg / altura en metros al cuadrado)
 df["IMC"] = (df["Weight"] / (df["Height"] / 100) ** 2).round(2)
@@ -236,6 +237,7 @@ display(df[["IMC", "Margen_crecimiento", "Categoria_edad"]].describe(include="al
 # - **IMC:** relaciona el peso (kg) con la altura (m) de cada jugador. Su media es de 22.86, con valores entre 18.39 y 29.76, lo que indica una complexión física normal en la mayoría de los jugadores.
 # - **Margen_crecimiento:** es la diferencia entre el potencial (POT) y la valoración actual (OVA). Su media es de 5.25 puntos y llega hasta 25, lo que identifica a los jugadores con mayor margen de mejora. Coincide con la columna Growth del conjunto original.
 # - **Categoria_edad:** agrupa la edad en tres rangos, Joven (hasta 21 años), Adulto (22 a 29) y Veterano (30 o más). La categoría más frecuente es Adulto, con 1093 de los 2000 jugadores.
+
 # %% [markdown]
 # ## 6. Filtrado y condiciones en pandas  (Integrante B)
 
@@ -501,3 +503,11 @@ plt.show()
 
 # %% [markdown]
 # ## 9. Conclusiones finales  (Integrante A)
+# %% [markdown]
+# **Conclusiones finales:**
+#
+# 1. **Calidad de los datos:** la muestra de 2000 jugadores de FIFA 21 llegó casi completa. La única variable con muchos faltantes, Loan Date End (94,5 %), se eliminó, y no se encontraron registros duplicados. El principal trabajo de limpieza fue convertir a números las columnas que venían como texto, como Height, Weight, Value y Wage.
+# 2. **Outliers con sentido:** los boxplots mostraron valores extremos en casi todas las variables, pero no son errores. Los más claros son los de portería, donde 224 de los 225 jugadores con GK Positioning mayor a 40 son porteros, además de estrellas con valoraciones altas y unos pocos veteranos de 42 y 53 años.
+# 3. **La edad marca el nivel y el potencial:** la valoración media sube de 60,27 en los jóvenes a 68,98 en los veteranos, mientras que el margen de crecimiento cae de 12,84 a casi cero (0,01). Los jugadores con mayor potencial de mejora son adolescentes, como W. Faghir, de 16 años, con 25 puntos de crecimiento posible.
+# 4. **El mercado paga por nivel y proyección, no por el pie:** los adultos son los más valiosos, con unos 2,53 millones de euros de media, frente a 1,92 millones de los veteranos y 1,06 millones de los jóvenes. K. Mbappé lidera la muestra con 105,5 millones de euros. En cambio, el pie dominante casi no influye ni en el salario (8494 en zurdos y 8321 en diestros) ni en la valoración general.
+# 5. **Composición y habilidades de la muestra:** la mayoría de los jugadores tiene entre 20 y 30 años, y Inglaterra (163), Alemania (141), Francia (111) y España (108) son los países más representados. Entre las habilidades, pase y regate son las que más se relacionan (correlación de 0,83), y tiro y defensa muestran una relación negativa (-0,43).
