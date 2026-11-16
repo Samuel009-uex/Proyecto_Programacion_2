@@ -380,5 +380,124 @@ display(r5)
 # %% [markdown]
 # ## 8. Visualizaciones  (Integrante B)
 
+# %%
+# GRÁFICO 1: Distribución de edades de los jugadores
+
+plt.figure(figsize=(10, 5))
+
+plt.hist(df["Age"], bins=range(16, 55), edgecolor="black", color="#2D1775D8")
+
+plt.title("Distribución de edades de los jugadores")
+plt.xlabel("Edad")
+plt.ylabel("Cantidad de jugadores")
+plt.xticks(range(16, 54, 2))
+
+plt.show()
+
+
+# %% [markdown]
+# **Conclusión 1:** La distribución de edades muestra que la mayoría
+# de los jugadores se concentra entre los 20 y 30 años. La edad más
+# frecuente es 22 años, con aproximadamente 158 jugadores. También
+# se observa que, a medida que aumenta la edad, disminuye la cantidad
+# de futbolistas, especialmente después de los 35 años.
+
+
+# %%
+# GRÁFICO 2: Nacionalidades con mayor cantidad de jugadores
+
+nacionalidades = df["Nationality"].value_counts().head(10)
+
+plt.figure(figsize=(10, 5))
+
+nacionalidades.plot(kind="bar", edgecolor="black", color="#D36B33C3")
+
+plt.title("Top 10 de nacionalidades con más jugadores")
+plt.xlabel("Nacionalidad")
+plt.ylabel("Cantidad de jugadores")
+plt.xticks(rotation=45)
+
+plt.show()
+
+
+# %% [markdown]
+# **Conclusión 2:** Inglaterra es la nacionalidad con mayor representación
+# en la muestra, con 163 jugadores, seguida de Alemania con 141
+# y Francia con 111. Esto permite identificar cuáles son los países
+# que tienen mayor presencia de futbolistas en la base de datos.
+
+
+# %%
+# GRÁFICO 3: Relación entre edad y valoración general
+plt.figure(figsize=(10, 5))
+
+plt.scatter(df["Age"], df["↓OVA"], alpha=0.5, color="#D66ABB")
+
+plt.title("Relación entre edad y valoración general")
+plt.xlabel("Edad")
+plt.ylabel("Valoración general")
+plt.grid()
+
+plt.show()
+
+# %% [markdown]
+# **Conclusión 3:** El gráfico permite observar la relación entre la edad
+# y la valoración general de los jugadores. Se aprecia que existen
+# futbolistas con valoraciones altas en diferentes edades, por lo que
+# la edad por sí sola no determina la valoración general de un jugador.
+
+
+# %%
+# GRÁFICO 4: Valoración general según el pie dominante
+
+plt.figure(figsize=(8, 5))
+
+datos_pie = [df[df["foot"] == "Right"]["↓OVA"], df[df["foot"] == "Left"]["↓OVA"]]
+
+plt.boxplot(datos_pie, tick_labels=["Derecho", "Izquierdo"], patch_artist=True, boxprops=dict(facecolor="#EDED738B"),
+    medianprops=dict(color="#6C112E", linewidth=2))
+
+plt.title("Valoración general según el pie dominante")
+plt.xlabel("Pie dominante")
+plt.ylabel("Valoración general")
+
+plt.show()
+
+
+# %% [markdown]
+# **Conclusión 4:** Al comparar la valoración general según el pie
+# dominante, se observa que los jugadores que utilizan el pie izquierdo
+# presentan una mediana ligeramente superior a los que utilizan
+# el derecho. Sin embargo, las distribuciones son bastante similares,
+# por lo que no se evidencia una diferencia importante en la valoración
+# general asociada al pie dominante.
+
+
+# %%
+# GRÁFICO 5: Relación entre características futbolísticas
+
+caracteristicas = df[["PAC", "SHO", "PAS", "DRI", "DEF", "PHY"]]
+
+correlaciones = caracteristicas.corr()
+
+plt.figure(figsize=(9, 6))
+
+sns.heatmap(correlaciones, annot=True, cmap="magma", linewidths=0.5, fmt=".2f")
+
+plt.title("Relación entre las características de los jugadores")
+
+plt.show()
+
+
+# %% [markdown]
+# **Conclusión 5:** El mapa de calor muestra que las características
+# de pase y regate presentan la mayor correlación positiva, con un valor
+# de 0.83. También se observa una relación positiva entre tiro y regate
+# (0.77), mientras que defensa y físico presentan una correlación
+# de 0.54. Por otro lado, tiro y defensa muestran una relación negativa
+# de -0.43. Estos resultados permiten identificar cómo se relacionan
+# estadísticamente las diferentes habilidades de los jugadores.
+
+
 # %% [markdown]
 # ## 9. Conclusiones finales  (Integrante A)
