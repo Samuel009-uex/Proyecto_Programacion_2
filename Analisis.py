@@ -119,6 +119,57 @@ plt.show()
 
 # %% [markdown]
 # ## 4. Valores inconsistentes y duplicados  (Integrante B)
+# %%
+# Identificar registros duplicados
+
+print("Cantidad de registros duplicados:", df.duplicated().sum())
+
+# Identificar las columnas de texto
+
+columnas_texto = df.select_dtypes(include="str").columns
+
+# Limpiar espacios y saltos de linea en las columnas de texto
+
+for columna in columnas_texto:
+    df[columna] = df[columna].str.replace("\n", " ", regex=False).str.strip()
+
+# Comprobar si quedan espacios innecesarios
+
+for columna in columnas_texto:
+    cantidad = (df[columna] != df[columna].str.strip()).sum()
+
+    if cantidad > 0:
+        print(columna, cantidad)
+
+# Revisar diferencias de mayusculas y minusculas
+
+for columna in ["Nationality", "Positions", "foot", "BP"]:
+    original = df[columna].nunique()
+    minusculas = df[columna].str.lower().nunique()
+
+    if original != minusculas:
+        print(columna, ": posibles diferencias de escritura")
+    else:
+        print(columna, ": sin diferencias de mayusculas")
+
+# Comprobar los duplicados despues de la limpieza
+
+print("Duplicados despues de la limpieza:", df.duplicated().sum())
+
+# Mostrar las dimensiones finales
+
+print("Dimensiones de la base de datos:", df.shape)
+
+
+# %% [markdown]
+# **Conclusion:**
+# No se encontraron registros duplicados en la base de datos.
+# Se identificaron saltos de linea y espacios innecesarios en las
+# variables Team & Contract y Hits, los cuales fueron corregidos.
+# Tambien se revisaron las variables Nationality, Positions, foot
+# y BP, sin encontrar diferencias de escritura por mayusculas
+# y minusculas.
+
 
 # %% [markdown]
 # ## 5. Creación de variables  (Integrante A)
