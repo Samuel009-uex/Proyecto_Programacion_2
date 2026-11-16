@@ -120,9 +120,6 @@ plt.show()
 # %% [markdown]
 # ## 4. Valores inconsistentes y duplicados  (Integrante B)
 
-# %% [markdown]
-# ## 4. Valores inconsistentes y duplicados (Integrante B)
-
 # %%
 # 1. Limpiar espacios y saltos de línea en las columnas de texto
 columnas_texto = df.select_dtypes(include=["object", "str"]).columns
@@ -215,7 +212,30 @@ print(df.shape)
 
 # %% [markdown]
 # ## 5. Creación de variables  (Integrante A)
+# %%
+# Variable 1: índice de masa corporal (peso en kg / altura en metros al cuadrado)
+df["IMC"] = (df["Weight"] / (df["Height"] / 100) ** 2).round(2)
 
+# Variable 2: margen de crecimiento (potencial menos valoración actual)
+df["Margen_crecimiento"] = df["POT"] - df["↓OVA"]
+
+# Variable 3: categoría de edad
+df["Categoria_edad"] = pd.cut(
+    df["Age"],
+    bins=[0, 21, 29, 100],
+    labels=["Joven", "Adulto", "Veterano"]
+)
+
+# Revisar las variables nuevas
+display(df[["IMC", "Margen_crecimiento", "Categoria_edad"]].describe(include="all"))
+
+# %% [markdown]
+# **Conclusión:**
+#
+# - Se crearon tres variables nuevas a partir de las existentes.
+# - **IMC:** relaciona el peso (kg) con la altura (m) de cada jugador. Su media es de 22.86, con valores entre 18.39 y 29.76, lo que indica una complexión física normal en la mayoría de los jugadores.
+# - **Margen_crecimiento:** es la diferencia entre el potencial (POT) y la valoración actual (OVA). Su media es de 5.25 puntos y llega hasta 25, lo que identifica a los jugadores con mayor margen de mejora. Coincide con la columna Growth del conjunto original.
+# - **Categoria_edad:** agrupa la edad en tres rangos, Joven (hasta 21 años), Adulto (22 a 29) y Veterano (30 o más). La categoría más frecuente es Adulto, con 1093 de los 2000 jugadores.
 # %% [markdown]
 # ## 6. Filtrado y condiciones en pandas  (Integrante B)
 
