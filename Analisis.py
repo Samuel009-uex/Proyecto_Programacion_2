@@ -12,6 +12,21 @@ df = pd.read_csv("Datos/fifa21_muestra_2000.csv")
 
 # %% [markdown]
 # ## 1. Carga e inspección inicial de los datos  (Integrante A)
+# %%
+from IPython.display import display
+print(df.shape)
+df.info()
+display(df.describe())
+display(df.describe(include="object"))
+# %% [markdown]
+# **Conclusión:** 
+# 
+# - El conjunto de datos tiene 2000 filas y 77 columnas.
+# - Predominan las variables numéricas, 55 de tipo int64, frente a 22 de texto (str).
+# - Casi no hay datos faltantes en la inspección inicial: la única columna con nulos es
+# Loan Date End, con solo 110 valores no nulos de 2000, algo esperable porque
+# solo aplica a jugadores cedidos a préstamo.
+# - La edad va de 16 a 53 años, con media cercana a 25.
 
 # %% [markdown]
 # ## 2. Manejo de datos faltantes  (Integrante B)
