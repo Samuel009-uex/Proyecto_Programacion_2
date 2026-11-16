@@ -30,6 +30,50 @@ display(df.describe(include="object"))
 
 # %% [markdown]
 # ## 2. Manejo de datos faltantes  (Integrante B)
+# %%
+# Revisar los datos faltantes por columna
+
+print(df.isnull().sum()[df.isnull().sum() > 0])
+
+# Calcular el porcentaje de datos faltantes
+
+porcentaje = (df["Loan Date End"].isnull().sum() / len(df)) * 100
+
+print("Porcentaje de datos faltantes:", porcentaje, "%")
+
+# Mapa de calor antes de eliminar la variable
+
+plt.figure(figsize=(12, 5))
+sns.heatmap(df.isnull(), cbar=False, yticklabels=False, cmap="Reds")
+plt.title("Mapa de calor antes de eliminar datos faltantes")
+plt.xlabel("Variables")
+plt.ylabel("Registros")
+plt.show()
+
+# Eliminar la columna Loan Date End
+
+df = df.drop(columns=["Loan Date End"])
+
+# Comprobar los resultados
+
+print("Dimensiones después de la limpieza:", df.shape)
+print("Total de datos faltantes:", df.isnull().sum().sum())
+
+# Mapa de calor después de la limpieza
+
+plt.figure(figsize=(12, 5))
+sns.heatmap(df.isnull(), cbar=False, yticklabels=False, cmap="Reds")
+plt.title("Mapa de calor después de la limpieza")
+plt.xlabel("Variables")
+plt.ylabel("Registros")
+plt.show()
+
+# %% [markdown]
+# **Conclusión:**
+# La variable "Loan Date End" presentaba 1.890 valores faltantes,
+# equivalentes al 94,5 % de sus registros. Debido a la alta
+# proporción de información ausente, se decidió eliminar esta
+# columna y conservar los 2.000 registros de jugadores.
 
 # %% [markdown]
 # ## 3. Identificación de outliers  (Integrante A)
