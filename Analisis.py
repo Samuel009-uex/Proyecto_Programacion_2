@@ -337,6 +337,45 @@ jugadores_rapidos.head(10)
 
 # %% [markdown]
 # ## 7. Agrupación con groupby  (Integrante A)
+# %%
+# Resultado 1: valoración media (OVA) por categoría de edad
+r1 = df.groupby("Categoria_edad", observed=True)["↓OVA"].mean().round(2)
+display(r1)
+
+# %% [markdown]
+# **Conclusión 1:** la valoración media sube con la edad: 60.27 en los jóvenes, 66.95 en los adultos y 68.98 en los veteranos. Los jugadores con más experiencia tienen, en promedio, mejor nivel actual.
+
+# %%
+# Resultado 2: valor de mercado medio por categoría de edad
+r2 = df.groupby("Categoria_edad", observed=True)["Value"].mean().round(0)
+display(r2)
+
+# %% [markdown]
+# **Conclusión 2:** los adultos son los más valiosos, con un promedio de unos 2,53 millones de euros, frente a 1,92 millones de los veteranos y 1,06 millones de los jóvenes. El mercado paga más por quienes combinan buen nivel y varios años por delante.
+
+# %%
+# Resultado 3: los 10 países con más jugadores
+r3 = df.groupby("Nationality")["ID"].count().sort_values(ascending=False).head(10)
+display(r3)
+
+# %% [markdown]
+# **Conclusión 3:** Inglaterra lidera la muestra con 163 jugadores, seguida de Alemania con 141, Francia con 111 y España con 108. Cuatro países europeos concentran los primeros puestos, aunque Brasil (95) y Argentina (81) destacan como los mayores representantes de Sudamérica.
+
+# %%
+# Resultado 4: margen de crecimiento medio por categoría de edad
+r4 = df.groupby("Categoria_edad", observed=True)["Margen_crecimiento"].mean().round(2)
+display(r4)
+
+# %% [markdown]
+# **Conclusión 4:** el margen de crecimiento cae con la edad: 12.84 puntos en los jóvenes, 3.81 en los adultos y prácticamente cero (0.01) en los veteranos. Es lo esperable, porque los veteranos ya alcanzaron su potencial.
+
+# %%
+# Resultado 5: salario medio según el pie dominante
+r5 = df.groupby("foot")["Wage"].mean().round(0)
+display(r5)
+
+# %% [markdown]
+# **Conclusión 5:** los jugadores zurdos ganan en promedio algo más (8494) que los diestros (8321), pero la diferencia es pequeña, de unos 170, así que el pie dominante no parece influir de forma importante en el salario.
 
 # %% [markdown]
 # ## 8. Visualizaciones  (Integrante B)
