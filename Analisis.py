@@ -119,57 +119,99 @@ plt.show()
 
 # %% [markdown]
 # ## 4. Valores inconsistentes y duplicados  (Integrante B)
+
+# %% [markdown]
+# ## 4. Valores inconsistentes y duplicados (Integrante B)
+
 # %%
-# Identificar registros duplicados
-
-print("Cantidad de registros duplicados:", df.duplicated().sum())
-
-# Identificar las columnas de texto
-
-columnas_texto = df.select_dtypes(include="str").columns
-
-# Limpiar espacios y saltos de linea en las columnas de texto
+# 1. Limpiar espacios y saltos de línea en las columnas de texto
+columnas_texto = df.select_dtypes(include=["object", "str"]).columns
 
 for columna in columnas_texto:
-    df[columna] = df[columna].str.replace("\n", " ", regex=False).str.strip()
+    df[columna] = df[columna].str.split().str.join(" ")
 
-# Comprobar si quedan espacios innecesarios
 
-for columna in columnas_texto:
-    cantidad = (df[columna] != df[columna].str.strip()).sum()
-
-    if cantidad > 0:
-        print(columna, cantidad)
-
-# Revisar diferencias de mayusculas y minusculas
-
-for columna in ["Nationality", "Positions", "foot", "BP"]:
-    original = df[columna].nunique()
-    minusculas = df[columna].str.lower().nunique()
-
-    if original != minusculas:
-        print(columna, ": posibles diferencias de escritura")
+# 2. Convertir Hits a números, teniendo en cuenta los valores en miles
+def convertir_hits(valor):
+    if valor.endswith("K"):
+        return float(valor.replace("K", "")) * 1000
     else:
-        print(columna, ": sin diferencias de mayusculas")
+        return float(valor)
 
-# Comprobar los duplicados despues de la limpieza
+df["Hits"] = df["Hits"].apply(convertir_hits)
 
-print("Duplicados despues de la limpieza:", df.duplicated().sum())
 
-# Mostrar las dimensiones finales
+# 3. Convertir Height de pies y pulgadas a centímetros
+def convertir_altura(altura):
+    partes = altura.replace('"', '').split("'")
+    pies = int(partes[0])
+    pulgadas = int(partes[1])
+    return round(pies * 30.48 + pulgadas * 2.54)
 
-print("Dimensiones de la base de datos:", df.shape)
+df["Height"] = df["Height"].apply(convertir_altura)
+
+
+# 4. Convertir Weight de libras a kilogramos
+def convertir_peso(peso):
+    libras = int(peso.replace("lbs", ""))
+    return round(libras * 0.453592)
+
+df["Weight"] = df["Weight"].apply(convertir_peso)
+
+
+# 5. Convertir Value, Wage y Release Clause a números
+def convertir_euros(valor):
+    valor = valor.replace("€", "")
+
+    if valor.endswith("M"):
+        return float(valor.replace("M", "")) * 1000000
+    elif valor.endswith("K"):
+        return float(valor.replace("K", "")) * 1000
+    else:
+        return float(valor)
+
+df["Value"] = df["Value"].apply(convertir_euros)
+df["Wage"] = df["Wage"].apply(convertir_euros)
+df["Release Clause"] = df["Release Clause"].apply(convertir_euros)
+
+
+# 6. Convertir las calificaciones con estrellas a números
+for columna in ["W/F", "SM", "IR"]:
+    df[columna] = df[columna].str.replace("★", "", regex=False).str.strip().astype(int)
+
+
+# 7. Convertir Joined a formato de fecha
+df["Joined"] = pd.to_datetime(df["Joined"])
+
+
+# 8. Revisar y eliminar duplicados, si existen
+duplicados = df.duplicated().sum()
+
+print("Cantidad de registros duplicados:", duplicados)
+
+if duplicados > 0:
+    df = df.drop_duplicates()
+
+
+# 9. Mostrar los resultados finales
+print("\nTipos de datos después de las correcciones:")
+print(df.dtypes)
+
+print("\nDimensiones finales:")
+print(df.shape)
 
 
 # %% [markdown]
-# **Conclusion:**
-# No se encontraron registros duplicados en la base de datos.
-# Se identificaron saltos de linea y espacios innecesarios en las
-# variables Team & Contract y Hits, los cuales fueron corregidos.
-# Tambien se revisaron las variables Nationality, Positions, foot
-# y BP, sin encontrar diferencias de escritura por mayusculas
-# y minusculas.
-
+# **Conclusiones:**
+#
+# - Se identificaron y corrigieron inconsistencias relacionadas con espacios y saltos de línea en las columnas de texto.
+# - La columna `Hits` se convirtió a formato numérico, teniendo en cuenta los valores expresados en miles mediante la abreviatura K.
+# - Las columnas `Height` y `Weight` se transformaron a centímetros y kilogramos, respectivamente.
+# - Las columnas `Value`, `Wage` y `Release Clause` se convirtieron a valores numéricos en euros, facilitando su utilización en operaciones y análisis.
+# - Las calificaciones `W/F`, `SM` e `IR` se transformaron a valores numéricos.
+# - La columna `Joined` se convirtió a formato de fecha.
+# - Se conservaron como texto las variables categóricas, como nacionalidad, posiciones y nombres, porque representan características de los jugadores y no cantidades.
+# - Finalmente, se comprobó que no existen registros duplicados.
 
 # %% [markdown]
 # ## 5. Creación de variables  (Integrante A)
