@@ -239,6 +239,102 @@ display(df[["IMC", "Margen_crecimiento", "Categoria_edad"]].describe(include="al
 # %% [markdown]
 # ## 6. Filtrado y condiciones en pandas  (Integrante B)
 
+# %%
+# RESULTADO 1: Jugadores con mayor valor de mercado
+
+jugadores_valiosos = df[["Name", "Age", "Nationality", "Value", "Wage"]]
+
+jugadores_valiosos = jugadores_valiosos.sort_values(by="Value", ascending=False)
+
+jugadores_valiosos.head(10)
+
+
+# %% [markdown]
+# **Conclusión 1:** Al analizar los diez jugadores con mayor valor de mercado,
+# se encontró que K. Mbappé ocupa el primer lugar con €105,5 millones
+# seguido de K. De Bruyne con €87 millones. Alemania es la nacionalidad
+# con mayor representación en este grupo, con tres jugadores.
+# Esto permite observar las diferencias en el valor de mercado
+# de los futbolistas de la muestra.
+
+
+# %%
+# RESULTADO 2: Jugadores jóvenes con alto valor de mercado
+
+jugadores_jovenes = df[(df["Age"] < 24) & (df["Value"] > 20000000)]
+
+jugadores_jovenes = jugadores_jovenes[["Name", "Age", "Nationality", "Value", "↓OVA"]]
+
+jugadores_jovenes = jugadores_jovenes.sort_values(by="Value", ascending=False)
+
+jugadores_jovenes.head(10)
+
+
+# %% [markdown]
+# **Conclusión 2:** Se identificaron cinco jugadores menores de 24 años
+# con un valor de mercado superior a 20 millones de euros. K. Mbappé
+# destaca nuevamente con un valor de €105,5 millones y una valoración general de 90.
+# Esto muestra que dentro de la muestra existen jugadores jóvenes
+# con un alto valor de mercado y un buen rendimiento general.
+
+
+# %%
+# RESULTADO 3: Nacionalidades con mayor cantidad de jugadores
+
+nacionalidades = df["Nationality"].value_counts().head(10)
+
+nacionalidades
+
+
+# %% [markdown]
+# **Conclusión 3:** Inglaterra es la nacionalidad con mayor representación
+# en la muestra, con 163 jugadores, seguida de Alemania con 141
+# y Francia con 111. Esto permite identificar cuáles son los países
+# que tienen mayor presencia de futbolistas en la base de datos.
+
+
+# %%
+# RESULTADO 4: Jugadores con mayor potencial de crecimiento
+
+jugadores_crecimiento = df[["Name", "Age", "Nationality", "↓OVA", "POT", "Growth"]]
+
+jugadores_crecimiento = jugadores_crecimiento.sort_values(by="Growth", ascending=False)
+
+jugadores_crecimiento.head(10)
+
+
+# %% [markdown]
+# **Conclusión 4:** Se identificaron los diez jugadores con mayor potencial
+# de crecimiento en la muestra. W. Faghir, de 16 años, ocupa el primer
+# lugar con un crecimiento potencial de 25 puntos, pasando de una
+# valoración actual de 58 a un potencial de 83. Además, todos los
+# jugadores encontrados tienen 18 años o menos, lo que evidencia
+# la presencia de futbolistas jóvenes con importantes posibilidades
+# de desarrollo.
+
+
+# %%
+# RESULTADO 5: Jugadores con mayor velocidad
+
+jugadores_rapidos = df[df["PAC"] >= 90]
+
+jugadores_rapidos = jugadores_rapidos[["Name", "Age", "Nationality", "Positions", "PAC", "DRI", "↓OVA"]]
+
+jugadores_rapidos = jugadores_rapidos.sort_values(by="PAC", ascending=False)
+
+print("Cantidad de jugadores con velocidad de 90 o más:",len(jugadores_rapidos))
+
+jugadores_rapidos.head(10)
+
+
+# %% [markdown]
+# **Conclusión 5:** Se encontraron 28 jugadores con una velocidad
+# de 90 puntos o más. K. Mbappé ocupa el primer lugar con 96 puntos
+# de velocidad, seguido de varios jugadores con puntuaciones de 93.
+# Este resultado permite identificar a los futbolistas más rápidos
+# de la muestra y comparar su velocidad con su capacidad de regate
+# y su valoración general.
+
 # %% [markdown]
 # ## 7. Agrupación con groupby  (Integrante A)
 
