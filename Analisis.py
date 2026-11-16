@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("/workspaces/Proyecto_Programacion_2/Datos/fifa21_muestra_2000.csv")
+df = pd.read_csv("Datos/fifa21_muestra_2000.csv")
 
 # %% [markdown]
 # ## 1. Carga e inspección inicial de los datos  (Integrante A)
